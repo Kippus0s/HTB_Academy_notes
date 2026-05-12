@@ -1,0 +1,23 @@
+Task 1: 
+I first used nmap -sC and -sV and --script -smtp-open-relay
+After playing around with telnet, the banner was found by connecting to port 25 via telnet: 
+`telnet <ADDRESS> 25
+
+and then using HELO command followed by the address again
+`HELO <ADDRESS>
+
+This returned the banner and SMTP version which served as the correct answer.
+
+Task 2:
+I tried nmap script smpt-enum-users and manually verified the usernames there but only root was valid, and this was unsurprisingly not the correct answer.
+I could not see how to integrate a wordlist with this tool and while googling SMPT user enumeration, I found smpt-user-enum which is documented on kali doc, 
+but also on the parrot OS available in the browser for HTB Academy.
+
+I logged into my HTB account to download the footprinting-wordlist.txt in Resources section for the module on the VM and unzipped it.  
+This was very annoying as the browser wouldn't let me fullscreen or scroll down the resources page due to javascript fanciness of the academy website, 
+but pressing f11 managed to let me scrolldown from the web browser from the VM with the Resources panel open, and I could then download the wordlist.
+`smtp-user-enum -h
+`smtp-user-enum -M VRFY -U ~/Downloads/footprinting-wordlist.txt -t <ADDRESS> 
+
+The above command doesn't work by default, and investigating on the forums showed that I need to increase the wait time with -w, I tried 5 seconds, 10 seconds, 
+and then 30 seconds, at last a username succesfully verified from the wordlist, and this was the correct answer.
