@@ -6,7 +6,7 @@ After playing around with telnet, the banner was found by connecting to port 25 
 and then using HELO command followed by the address again
 `HELO <ADDRESS>
 
-This returned the banner and SMTP version which served as the correct answer.
+With response code 220, this returned the banner and SMTP version which served as the correct answer.
 
 Task 2:
 I tried nmap script smpt-enum-users and manually verified the usernames there but only root was valid, and this was unsurprisingly not the correct answer.
