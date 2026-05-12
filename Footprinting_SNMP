@@ -1,0 +1,25 @@
+Finding the community string: 
+onesixtyone -c /usr/share/seclists/Discovery/SNMP/snmp.txt 10.129.47.6
+
+Location of wordlist was found with 
+`find / -name snmp.txt
+
+
+1. Enumerate the SNMP service and obtain the email address of the admin. Submit it as the answer.
+snpwalk -v1 -c public <ADDRESS> | grep @
+
+I used public as the community string as a guess to answer this first question, but it can be deduced with onesixtyone as I described above.
+
+I used "grep @ "as the amount of resultsthat  returned is impossibly long. The single result contained the admin email.
+
+2. What is the customized version of the SNMP server?
+
+braa public@10.129.47.6:.1.3.6.*
+
+The name of the customised version is one of the lines returned.
+
+
+3. Enumerate the custom script that is running on the system and submit its output as the answer.
+
+snmpwalk -v2c -c public ADDRESS | grep HTB (-v1 also works) 
+one of the results is the HTB{xxx} flag
