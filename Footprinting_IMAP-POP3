@@ -1,0 +1,41 @@
+1. Figure out the exact organization name from the IMAP/POP3 service and submit it as the answer.
+
+nmap <ADDRESS> -p 110,143, 993,995 -sV -sC 
+the name of the company shows here in the SSL cert.
+
+2. What is the FQDN that the IMAP and POP3 servers are assigned to?
+ 
+as above, the FQDN is also in the SSL cert.
+
+3. Enumerate the IMAP service and submit the flag as the answer. (Format: HTB{...})
+
+openssl s_client -connect <ADDDRESS>:imaps
+
+There is a read block at the bottom containing the flag
+
+4. What is the customized version of the POP3 server?
+
+openssl s_client -connect <ADDDRESS>:pop3s
+
+Again, the version is in the read block here as above, the answer is fullname InFreight... vx.xxx 
+
+5. What is the admin email address?
+
+For these we need to look up FETCH options in detail 
+
+connect with opensll, USER robin (from previous exercise on smtp) -OK password same as username...
+
+1 LOGIN username password (1 is the command tag) 
+1 LIST "" * - lists all directories, the inbox is DEV.DEPARTMENT.INT
+1 SELECT DEV.DEPARTMENT.INT - this shows "1 exists" that there is one email
+1 FETCH 1 BODY[HEADER] - returns the headers including To: and From: - containing the email address.
+
+The admin username is here
+
+6. Try to access the emails on the IMAP server and submit the flag as the answer. (Format: HTB{...})
+
+login to the imap server using ssl as above, 
+repeat the steps from 5 and then 
+`1 FETCH 1 BODY[TEXT]
+
+The message body data itself contains the htb{xxx} code 
