@@ -1,0 +1,12 @@
+1. Enumerate the MySQL server and determine the version in use. (Format: MySQL X.X.XX)
+nmap <ADDRESS> -p3306 -sV
+
+2. During our penetration test, we found weak credentials "robin:robin". We should try these against the MySQL server. What is the email address of the customer "Otto Lang"?
+
+mysql -u robin -probin -h <ADDRESS>
+show databses;   (this shows one called customers along with some others)
+use customers; (change to customers database)
+select * from myTable; (the only table in customers database is myTable, this command shows all row and columns for it)
+
+The table is quite short so it's easy to find Otto Lang's email, but filters could be used 
+or commands such as "select * from <table> where <column> = "<string>";" 
