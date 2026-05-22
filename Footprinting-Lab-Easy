@@ -1,0 +1,6 @@
+We have credentials ceil:qwer1234 , and clues about ssh keys. a key is required to login via ssh, the credentials aren't enough. Accessing the ftp server on port 21 gives us nothing, but there is another - on port 2121, which is visible on nmap - the service ccproxy-ftp
+So we ` ftp IPADDRESS 2121 to specifiy port 2121 instead of 21, and this gives us something
+Navigate to the ssh id_rsa and id_rsa.pub and use get on both of those.
+Then change the permissions to 600 with chmod 600 id_rsa , as a requirement of ssh is for the permissions to be set correctly, otherwise it rejects the key.
+With that done, the keys are stolen and permissions set, we can simply do ssh ceil@IP_ADDRESS -i id_rsa then enter the password, and then it's just a matter of navigating like you did in the ftp server but to the flags folder in the home directory up a level from where you arrive.
+
