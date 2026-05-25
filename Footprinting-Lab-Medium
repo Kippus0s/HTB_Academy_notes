@@ -1,0 +1,26 @@
+nmap -sV -sC <ADDRESS>
+
+i got stuck with no way to proceeed, I saw port 2049 is vulnerable, but couldnt mount it. I looked up help and found the command
+showmount -e <ADDRESS> 
+This gives us the share TechSupport
+Port 2049 is an NFS share
+so create a mount folder like so: mkdir ~/mnt
+then:
+sudo mount -t nfs 10.129.202.41:/TechSupport <MOUNTFOLDER> -o nolock
+
+Then sudo su, as you are not permitted on default account to open this share, there are a bunch of text files
+root: cd ~/mnt/
+cat *    -> reads all the text files
+In here are credentials for a user called alex.
+These credentials can be used to log in via xfreerdp
+Inside /users/alex/ is a text file called IMPORTANT
+this has sa:PASSWORD
+Trying to access users/Administrator on this share with that password, works, which confirms this password is for Administrator on the server
+
+again start a new rdp session but using the Administrator and the password for it we found in IMPORTANT.txt
+
+Open Start menu Microsofot SQL Server Tools 18 - Click Microsoft SQL Server Management Studio, click connect
+In object explorer on left - Databases - accounts - dbo.devsacc -> right click select top 1000 rows will show plaintext usernames and passwords, and open a query editor. 
+
+add to the SQL query  WHERE [name] = 'HTB'
+RIGHT CLICK execute the query, and HTB and password are shown there
