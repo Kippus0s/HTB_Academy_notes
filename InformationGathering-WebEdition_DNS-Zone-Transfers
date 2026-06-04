@@ -1,0 +1,6 @@
+1. After performing a zone transfer for the domain inlanefreight.htb on the target system, how many DNS records are retrieved from the target system's name server? Provide your answer as an integer, e.g, 123.
+dig axfr <IP> inlanefreight.htb > output
+nano output
+because there are lines which dont include dns records, i found it easiest to delete those lines, nano has line number left column so we see 22 as the last record and that is the answer
+
+The other next 2 questions answers are found in that same output file easily scanning by eye
