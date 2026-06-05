@@ -1,0 +1,11 @@
+1. Brute-force vhosts on the target system. What is the full subdomain that is prefixed with "web"? Answer using the full domain, e.g. "x.inlanefreight.htb"
+
+All the following questions are the same except asking for different subdomains.
+
+To use gobuster, you need to add <ip_address>  domainname to /etc/hosts, making sure to use a tab instead of single space between ip and domainname
+
+this is so we can use -u http://inlanefreight.htb:port and the command knows which ip that should be.
+
+you can skip the /etc/host step by using ffuf -u http://ip:port -H "Host:FUZZ.inlanefreight.htb -w wordlistpath.txt -ac
+This is because the host is by -H and so we can use ip for -u instead of domainname for the host details. 
+however, we need to use -ac in ffuf to do this to remove false positives. 
