@@ -1,0 +1,12 @@
+1. Determine the Apache version running on app.inlanefreight.local on the target system. (Format: 0.0.0)
+Add the ip and vhost to /etc/hosts
+curl -I <ADDRESS> (can use target ip here, but intended to use app.inlanefreight.local once the ip is given in /etc/host)
+
+2. Which CMS is used on app.inlanefreight.local on the target system? Respond with the name only, e.g., WordPress.
+whatweb app.inlanefreight.local - see meta generator 
+
+3. On which operating system is the dev.inlanefreight.local webserver running in the target system? Respond with the name only, e.g., Debian.
+nmap -sV app.inlanefreight.local
+or 
+nikto -h app.inlanefreight.local
+see server
