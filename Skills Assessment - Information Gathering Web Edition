@@ -1,0 +1,42 @@
+1. What is the IANA ID of the registrar of the inlanefreight.com domain?
+whois inlanefreight.com
+
+2. What http server software is powering the inlanefreight.htb site on the target system? Respond with the name of the software, not the version, e.g., Apache.
+
+add the ip and inlanefreight.htb to /etc/hosts
+then 
+then curl -i ip:port 
+or can use finalrecon.py (guide to install is on the automated recon page of this module)
+use ./finalrecon.py inlanefreight.htb:port
+the headers section will show the http server version
+
+3. What is the API key in the hidden admin directory that you have discovered on the target system?
+Here, first you have to find another vhost , so you scan the inlanefreight.htb vhost with gobuster using a wordlist to find the existence of a vhost.
+
+gosbuster vhost -u http://inlanefreight.htb:port -w /usr/share/seclists/Discovery/DNS/subdomains-top1million.txt -t 500 --timeout 30s (note you must use inlanefreight.tb instead of it's ip here, or it wont find anything
+
+this finds another vhost, add it to etc/hosts
+
+do another finalrecon full
+
+./finalrecon.py -u web1337.inlanefreighthtb:port --full
+
+this shows now we have index.html dir againb ut also robots.txt
+inside robots.txt is the hidden directory we look for.
+navigate to it for the API key. 
+
+4. After crawling the inlanefreight.htb domain on the target system, what is the email address you have found? Respond with the full email, e.g., mail@inlanefreight.htb.
+
+It turns out vhosts can have vhosts... And again you have to just find this with gobuster kinda randomly
+Add dev.web1337.inlanefreight.htb to the hosts again /etc/hosts
+I checked for more vhosts, none, this is the last vhost
+
+We can find oen internal link with finalrecon.py diretory enumeration, but it just goes to seemingly endless clickable links to other indexes with 3 random numbers
+the question mentions crawlign, I installed ReconSpider following the instructions in crawlers section of this module
+
+`python3 ReconSpider.py dev.web1337.inlanefreight.htb:port 
+
+then `cat results.json
+the email field contains the address for answer of this question
+
+The new API for question part 5 is also here, in the comments field of the json
